@@ -15,9 +15,14 @@ var placeModel = [
 	}
 ];
 
-//class of data that will take in an object from the model, and represent the "places" on the map and in the list
 
 //I need to make a component that renders my map
+ko.components.register('google-map', {
+
+    template: "<h2 data-bind='text: initialName'></h2>"
+});
+
+//class of data that will take in an object from the model, and represent the "places" on the map and in the list
 
 var Place = function(data) {
 	//this is where I will add the observables for each "Place"
@@ -35,7 +40,11 @@ var ViewModel = function() {
 	placeModel.forEach(function(currentPlace){
 		self.placeList.push(new Place(currentPlace));
 	});
+
+	self.testing = ko.observable("Bill");
 }
 
 ko.applyBindings(new ViewModel());
 
+
+//API key: AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4
