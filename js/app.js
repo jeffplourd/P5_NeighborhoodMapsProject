@@ -17,9 +17,11 @@ var placeModel = [
 
 
 //I need to make a component that renders my map
-ko.components.register('google-map', {
-
-    template: "<h2 data-bind='text: initialName'></h2>"
+ko.components.register('some-component-name', {
+    viewModel: function(params) {
+    	this.test = params.initialName;
+    },
+    template: "<h2 data-bind='text: test'></h2>"
 });
 
 //class of data that will take in an object from the model, and represent the "places" on the map and in the list
