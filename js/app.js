@@ -61,12 +61,29 @@ ko.bindingHandlers.map = {
     }
 };
 
-ko.bindingHandlers.test = {
+ko.bindingHandlers.filter = {
+
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
-		var filterVar = ko.unwrap(allBindingsAccessor.get('textInput'));
-		console.log(filterVar);
+		var placeList = valueAccessor();
+		placeListUnwrapped = ko.unwrap(placeList);
+
+		//I need to grab the value from the 'textInput' binding
+		var textInputValue = ko.unwrap(allBindingsAccessor.get("textInput"));
+
+		console.log(textInputValue);
+		console.log(placeListUnwrapped[0].name());
+
+		//In this custom binding, I have access to the 'placeList' array and the 'filter' observable
+		//I need to figure out at way to filter the observable array against the 'filter' value
+		//Now that I have access to the array, I want to gain access to each element of the array's
+		//name property.
+
+
+
 	}
 }
+
+
 
 //class of data that will take in an object from the model, and represent the "places" on the map and in the list
 
@@ -93,9 +110,7 @@ var ViewModel = function() {
 		return {lat: ko.observable(32.774770), lng: ko.observable(-117.071665), places: self.placeList()}
     });
 
-	self.filter = ko.observable("");
-
-
+	self.filterString = ko.observable('');
 }
 
 ko.applyBindings(new ViewModel());
