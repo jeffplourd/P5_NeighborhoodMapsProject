@@ -129,6 +129,7 @@ var ViewModel = function() {
 	self.filterString = ko.observable('');
 
 	self.ajaxRequest = function(place) {
+		//this is the ajax request to wikipedia
 		var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + place.name() + "&format=json&callback=wikiCallback";
 		var $wikiElem = $('#wikipedia-links');
 		$wikiElem.text("");
@@ -144,10 +145,10 @@ var ViewModel = function() {
                 	var url = "http://en.wikipedia.org/wiki/" + articleStr;
                 	$wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
             	};
-
-
         	}
     	});
+
+    	//this is the ajax request to...
 	}
 }
 

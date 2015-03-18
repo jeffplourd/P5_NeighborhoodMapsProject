@@ -14,7 +14,11 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8" id="mapDiv" data-bind='style:{width:"500px",height:"500px"}, map: myMap'></div>
-			<div class= "col-md-4" id="wikipedia-links"></div>
+			<div class="col-md-4">
+				<h3>Wikipedia Articles</h3>
+				<div id="wikipedia-links"><p>Click on item from list to see wiki results</p></div>
+				<h3>Foursquare info:</h3>
+			</div>
 		</div>
 
 		<div class="row">
@@ -29,7 +33,6 @@
 				</div>
 			</div>
 		</div>
-		<div data-bind="text: myMap().places[0].name"></div>
 		<script src="js/knockout-3.2.0.js"></script>
 		<script src="js/jquery-2.1.3.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4"></script>
