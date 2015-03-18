@@ -127,6 +127,28 @@ var ViewModel = function() {
     });
 
 	self.filterString = ko.observable('');
+
+	self.ajaxRequest = function(place) {
+		var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + place.name() + "&format=json&callback=wikiCallback";
+		var $wikiElem = $('#wikipedia-links');
+		$wikiElem.text("");
+
+		$.ajax({
+        	url: wikiUrl,
+        	dataType: "jsonp",
+        	success: function ( response ) {
+            	console.log(response);
+            	var articleList = response[1];
+            	for(var i = 0; i < articleList.length; i++) {
+                	var articleStr = articleList[i];
+                	var url = "http://en.wikipedia.org/wiki/" + articleStr;
+                	$wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
+            	};
+
+
+        	}
+    	});
+	}
 }
 
 ko.applyBindings(new ViewModel());
