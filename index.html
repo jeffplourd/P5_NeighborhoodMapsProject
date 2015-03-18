@@ -9,20 +9,26 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Neighborhood Map Project</h1>
+				<h1 class='text-center'>Neighborhood Map Project</h1>
+				<hr>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-8" id="mapDiv" data-bind='style:{width:"500px",height:"500px"}, map: myMap'></div>
-			<div class="col-md-4">
+			<div class="col-md-6">
+				<div class='center-block' id="mapDiv" data-bind='style:{width:"500px",height:"500px"}, map: myMap'></div>
+			</div>
+			<div class="col-md-6">
 				<h3>Wikipedia Articles</h3>
-				<div id="wikipedia-links"><p>Click on item from list to see wiki results</p></div>
-				<h3>Foursquare info:</h3>
+				<ul id="wikipedia-links"><p>Click on item from list to see wiki results</p></ul>
+				<h3>Street View</h3>
+				<div id='extraInfo'><p>Click on item from list to see panorama</p></div>
 			</div>
 		</div>
 
 		<div class="row">
-			<h4>Enter place: <input type="text" data-bind="textInput: filterString, filter: placeList"></h4>
+			<hr>
+			<h3>Filter places: <input type="text" data-bind="textInput: filterString, filter: placeList"></h3>
+			<hr>
 		</div>
 
 		<div class="row">

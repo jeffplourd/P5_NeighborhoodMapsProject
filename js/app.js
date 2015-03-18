@@ -28,6 +28,13 @@ var placeModel = [
 		lat: 32.773356,
 		lng:  -117.074408,
 		showME: true
+	},
+	{
+		name: 'Aztec Student Union',
+		city: 'San Diego',
+		lat: '32.773847',
+		lng: '-117.069848',
+		showME: true
 	}
 ];
 
@@ -109,6 +116,7 @@ var Place = function(data) {
 	this.lat = ko.observable(data.lat);
 	this.lng = ko.observable(data.lng);
 	this.showME = ko.observable(data.showME);
+	this.street = ko.observable(data.street);
 }
 
 //MV
@@ -129,11 +137,12 @@ var ViewModel = function() {
 	self.filterString = ko.observable('');
 
 	self.ajaxRequest = function(place) {
-		//this is the ajax request to wikipedia
+
+
 		var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + place.name() + "&format=json&callback=wikiCallback";
 		var $wikiElem = $('#wikipedia-links');
 		$wikiElem.text("");
-
+		//this is the ajax request to wikipedia
 		$.ajax({
         	url: wikiUrl,
         	dataType: "jsonp",
@@ -148,7 +157,14 @@ var ViewModel = function() {
         	}
     	});
 
-    	//this is the ajax request to...
+    	//this is how to make background according to exact address
+    	var $extraInfo = $('#extraInfo');
+    	$extraInfo.text("");
+    	var fullLocation = place.lat() + ',' + place.lng();
+    	var bgImageTemp = '<iframe width="400" height="275" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?location='
+    	+ fullLocation + '&key=AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4"></iframe>';
+    	var bgImage = bgImageTemp.replace("%data%", fullLocation);
+    	$extraInfo.append(bgImage);
 	}
 }
 
