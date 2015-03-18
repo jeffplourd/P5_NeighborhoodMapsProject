@@ -5,25 +5,29 @@ var placeModel = [
 		name: 'Dorms',
 		city: 'San Diego',
 		lat: 32.772278,
-		lng: -117.068234
+		lng: -117.068234,
+		showME: true
 	},
 	{
 		name: 'Sigma Chi',
 		city: 'San Diego',
 		lat: 32.769532,
-		lng: -117.069571
+		lng: -117.069571,
+		showME: true
 	},
 	{
 		name: 'Love Library',
 		city: 'San Diego',
 		lat: 32.775169,
-		lng:  -117.071541
+		lng:  -117.071541,
+		showME: true
 	},
 	{
 		name: 'Viejas Arena',
 		city: 'San Diego',
 		lat: 32.773356,
-		lng:  -117.074408
+		lng:  -117.074408,
+		showME: true
 	}
 ];
 
@@ -73,13 +77,24 @@ ko.bindingHandlers.filter = {
 		console.log(textInputValue);
 		console.log(placeListUnwrapped[0].name());
 
+		for(var i = 0; i < placeListUnwrapped.length; i++) {
+			var placeListNameLower = placeListUnwrapped[i].name().toLowerCase();
+			if(placeListNameLower.includes(textInputValue)) {
+				placeListUnwrapped[i].showME(true);
+			}else {
+				placeListUnwrapped[i].showME(false);
+			}
+		}
+
 		//In this custom binding, I have access to the 'placeList' array and the 'filter' observable
 		//I need to figure out at way to filter the observable array against the 'filter' value
 		//Now that I have access to the array, I want to gain access to each element of the array's
 		//name property.
 
-
-
+		//if i could use the information from the input to determine if the input has the same letters as
+		//the name in each 'place', then I could change the 'visiblilty' of each object.
+		//take the value from 'input', then compare it to the name in each placeList element.
+		//if value matches, then keep visible, else make visiblity 'false'
 	}
 }
 
@@ -93,6 +108,7 @@ var Place = function(data) {
 	this.city = ko.observable(data.city);
 	this.lat = ko.observable(data.lat);
 	this.lng = ko.observable(data.lng);
+	this.showME = ko.observable(data.showME);
 }
 
 //MV
