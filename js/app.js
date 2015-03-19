@@ -2,39 +2,44 @@
 
 var placeModel = [
 	{
-		name: 'Dorms',
+		name: 'Maya Residence Hall',
 		city: 'San Diego',
 		lat: 32.772278,
 		lng: -117.068234,
-		showME: true
+		showME: true,
+		infoWindowContent: 'Maya Residence Hall'
 	},
 	{
 		name: 'Sigma Chi',
 		city: 'San Diego',
 		lat: 32.769532,
 		lng: -117.069571,
-		showME: true
+		showME: true,
+		infoWindowContent: 'Sigma Chi'
 	},
 	{
 		name: 'Love Library',
 		city: 'San Diego',
 		lat: 32.775169,
 		lng:  -117.071541,
-		showME: true
+		showME: true,
+		infoWindowContent: 'The Lib'
 	},
 	{
 		name: 'Viejas Arena',
 		city: 'San Diego',
 		lat: 32.773356,
 		lng:  -117.074408,
-		showME: true
+		showME: true,
+		infoWindowContent: 'Basketball House'
 	},
 	{
 		name: 'Aztec Student Union',
 		city: 'San Diego',
 		lat: '32.773847',
 		lng: '-117.069848',
-		showME: true
+		showME: true,
+		infoWindowContent: 'Associated Students'
 	}
 ];
 
@@ -60,7 +65,6 @@ ko.bindingHandlers.map = {
 
         //the following code adds the markers to the map for each 'place'
         var testVariable = ko.unwrap(mapObjUnwrapped.places);
-        console.log(testVariable.length);
 
         for(var i = 0; i < testVariable.length; i++) {
         	var LatLng = new google.maps.LatLng(ko.unwrap(testVariable[i].lat()), ko.unwrap(testVariable[i].lng()));
@@ -68,6 +72,25 @@ ko.bindingHandlers.map = {
         		position: LatLng,
         		map: mapObjUnwrapped.googleMap,
         		title: ko.unwrap(testVariable[i].name())
+        	});
+        	//what we need to do here is create the info window, and create an event to will open the marker
+        	//I have access to the model view the 'testVariable', I can add the html to the model and the Place
+        	//constructor function.
+        	attachMessage(marker, i);
+        }
+
+        function attachMessage(marker, num) {
+        	var message = ko.unwrap(testVariable[num].infoWindowContent());
+        	var infoWindow = new google.maps.InfoWindow({
+        		content: message
+        	})
+        	//add event listeners to open and close the info window
+        	google.maps.event.addListener(marker, 'mouseover', function() {
+        		infoWindow.open(marker.get('map'),marker);
+        	});
+
+        	google.maps.event.addListener(marker, 'mouseout', function() {
+        		infoWindow.close();
         	});
         }
     }
@@ -91,16 +114,6 @@ ko.bindingHandlers.filter = {
 				placeListUnwrapped[i].showME(false);
 			}
 		}
-
-		//In this custom binding, I have access to the 'placeList' array and the 'filter' observable
-		//I need to figure out at way to filter the observable array against the 'filter' value
-		//Now that I have access to the array, I want to gain access to each element of the array's
-		//name property.
-
-		//if i could use the information from the input to determine if the input has the same letters as
-		//the name in each 'place', then I could change the 'visiblilty' of each object.
-		//take the value from 'input', then compare it to the name in each placeList element.
-		//if value matches, then keep visible, else make visiblity 'false'
 	}
 }
 
@@ -115,7 +128,7 @@ var Place = function(data) {
 	this.lat = ko.observable(data.lat);
 	this.lng = ko.observable(data.lng);
 	this.showME = ko.observable(data.showME);
-	this.street = ko.observable(data.street);
+	this.infoWindowContent = ko.observable(data.infoWindowContent);
 }
 
 //MV
@@ -135,13 +148,15 @@ var ViewModel = function() {
 
 	self.filterString = ko.observable('');
 
+	//I wasn't sure where I should place my AJAX requests to stay in alignment with the MVO paradigm.
+	//If this needs to me elsewhere, please let me know.
 	self.ajaxRequest = function(place) {
 
-
+		//this is the ajax request to wikipedia
 		var wikiUrl = "http://en.wikipedia.org/w/api.php?action=opensearch&search=" + place.name() + "&format=json&callback=wikiCallback";
 		var $wikiElem = $('#wikipedia-links');
 		$wikiElem.text("");
-		//this is the ajax request to wikipedia
+
 		$.ajax({
         	url: wikiUrl,
         	dataType: "jsonp",
@@ -154,9 +169,11 @@ var ViewModel = function() {
                 	$wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
             	};
         	}
+    	}).error(function(e) {
+    		$wikiElem.text('Wikipedia articles could not be found.')
     	});
 
-    	//this is how to make background according to exact address
+    	//this creates a street view of the the selected location based on the locations coordinates
     	var $extraInfo = $('#extraInfo');
     	$extraInfo.text("");
     	var fullLocation = place.lat() + ',' + place.lng();
@@ -170,5 +187,6 @@ var ViewModel = function() {
 ko.applyBindings(new ViewModel());
 
 
+//This is for personal reference during the project:
 //API key: AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4
 
