@@ -38,11 +38,12 @@ var placeModel = [
 	}
 ];
 
-//I'm going to make a custom binding that will display my map.
+//I made a custom binding that displays my map and markers.
 
 ko.bindingHandlers.map = {
 
     update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+    	//the following code adds the map to the page
     	var mapObj = valueAccessor();
         mapObjUnwrapped = ko.unwrap(mapObj);
 
@@ -57,6 +58,7 @@ ko.bindingHandlers.map = {
 
         mapObjUnwrapped.googleMap = new google.maps.Map(element, mapOptions);
 
+        //the following code adds the markers to the map for each 'place'
         var testVariable = ko.unwrap(mapObjUnwrapped.places);
         console.log(testVariable.length);
 
@@ -68,10 +70,10 @@ ko.bindingHandlers.map = {
         		title: ko.unwrap(testVariable[i].name())
         	});
         }
-
     }
 };
 
+//I made a custom binding to filter the places on my map with the input from the input box
 ko.bindingHandlers.filter = {
 
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
@@ -80,9 +82,6 @@ ko.bindingHandlers.filter = {
 
 		//I need to grab the value from the 'textInput' binding
 		var textInputValue = ko.unwrap(allBindingsAccessor.get("textInput"));
-
-		console.log(textInputValue);
-		console.log(placeListUnwrapped[0].name());
 
 		for(var i = 0; i < placeListUnwrapped.length; i++) {
 			var placeListNameLower = placeListUnwrapped[i].name().toLowerCase();
