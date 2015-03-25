@@ -58,7 +58,7 @@ ko.bindingHandlers.map = {
 
         var mapOptions = {
         	center: latLng,
-        	zoom: 15,
+        	zoom: 15
         };
 
         mapObjUnwrapped.googleMap = new google.maps.Map(element, mapOptions);
@@ -83,7 +83,7 @@ ko.bindingHandlers.map = {
         	var message = ko.unwrap(testVariable[num].infoWindowContent());
         	var infoWindow = new google.maps.InfoWindow({
         		content: message
-        	})
+        	});
         	//add event listeners to open and close the info window
         	google.maps.event.addListener(marker, 'mouseover', function() {
         		infoWindow.open(marker.get('map'),marker);
@@ -104,7 +104,7 @@ ko.bindingHandlers.filter = {
 		placeListUnwrapped = ko.unwrap(placeList);
 
 		//I need to grab the value from the 'textInput' binding
-		var textInputValue = ko.unwrap(allBindingsAccessor.get("textInput"));
+		var textInputValue = ko.unwrap(allBindingsAccessor.get("textInput")).toLowerCase();
 
 		for(var i = 0; i < placeListUnwrapped.length; i++) {
 			var placeListNameLower = placeListUnwrapped[i].name().toLowerCase();
@@ -115,7 +115,7 @@ ko.bindingHandlers.filter = {
 			}
 		}
 	}
-}
+};
 
 
 
@@ -143,7 +143,7 @@ var ViewModel = function() {
 	});
 
 	self.myMap = ko.computed(function(){
-		return {lat: ko.observable(32.774770), lng: ko.observable(-117.071665), places: self.placeList()}
+		return {lat: ko.observable(32.774770), lng: ko.observable(-117.071665), places: self.placeList()};
     });
 
 	self.filterString = ko.observable('');
@@ -161,7 +161,6 @@ var ViewModel = function() {
         	url: wikiUrl,
         	dataType: "jsonp",
         	success: function ( response ) {
-            	console.log(response);
             	var articleList = response[1];
             	for(var i = 0; i < articleList.length; i++) {
                 	var articleStr = articleList[i];
@@ -177,9 +176,8 @@ var ViewModel = function() {
     	var $extraInfo = $('#extraInfo');
     	$extraInfo.text("");
     	var fullLocation = place.lat() + ',' + place.lng();
-    	var bgImageTemp = '<iframe width="400" height="275" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?location='
-    	+ fullLocation + '&key=AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4"></iframe>';
-    	var bgImage = bgImageTemp.replace("%data%", fullLocation);
+    	var bgImage = '<iframe width="400" height="275" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4&location=' + fullLocation + '"></iframe>';
+    	console.log(bgImage);
     	$extraInfo.append(bgImage);
 	}
 }
