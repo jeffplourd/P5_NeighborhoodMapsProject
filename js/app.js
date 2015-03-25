@@ -7,7 +7,8 @@ var placeModel = [
 		lat: 32.772278,
 		lng: -117.068234,
 		showME: true,
-		infoWindowContent: 'Maya Residence Hall'
+		infoWindowContent: 'Maya Residence Hall',
+		image: 'http://www.freshmansupport.com/images/ca/san-diego/sdsu/properties/olmeca/main0.jpg'
 	},
 	{
 		name: 'Sigma Chi',
@@ -15,7 +16,8 @@ var placeModel = [
 		lat: 32.769532,
 		lng: -117.069571,
 		showME: true,
-		infoWindowContent: 'Sigma Chi'
+		infoWindowContent: 'Sigma Chi',
+		image: 'img/sigmaChi.jpg'
 	},
 	{
 		name: 'Love Library',
@@ -23,7 +25,8 @@ var placeModel = [
 		lat: 32.775169,
 		lng:  -117.071541,
 		showME: true,
-		infoWindowContent: 'The Lib'
+		infoWindowContent: 'The Lib',
+		image: 'http://gra.sdsu.edu/grad/orientation/images/library.jpg'
 	},
 	{
 		name: 'Viejas Arena',
@@ -31,7 +34,8 @@ var placeModel = [
 		lat: 32.773356,
 		lng:  -117.074408,
 		showME: true,
-		infoWindowContent: 'Basketball House'
+		infoWindowContent: 'Basketball House',
+		image: 'http://universe.sdsu.edu/sdsuniverse/images/stories/res630xy-str-031709-viejas.jpg'
 	},
 	{
 		name: 'Aztec Student Union',
@@ -39,7 +43,8 @@ var placeModel = [
 		lat: '32.773847',
 		lng: '-117.069848',
 		showME: true,
-		infoWindowContent: 'Associated Students'
+		infoWindowContent: 'Associated Students',
+		image: 'https://as.sdsu.edu/slideshow/81.jpg'
 	}
 ];
 
@@ -129,7 +134,8 @@ var Place = function(data) {
 	this.lng = ko.observable(data.lng);
 	this.showME = ko.observable(data.showME);
 	this.infoWindowContent = ko.observable(data.infoWindowContent);
-}
+	this.image = ko.observable(data.image);
+};
 
 //MV
 
@@ -166,21 +172,18 @@ var ViewModel = function() {
                 	var articleStr = articleList[i];
                 	var url = "http://en.wikipedia.org/wiki/" + articleStr;
                 	$wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
-            	};
+            	}
         	}
     	}).error(function(e) {
-    		$wikiElem.text('Wikipedia articles could not be found.')
+    		$wikiElem.text('Wikipedia articles could not be found.');
     	});
 
-    	//this creates a street view of the the selected location based on the locations coordinates
     	var $extraInfo = $('#extraInfo');
-    	$extraInfo.text("");
-    	var fullLocation = place.lat() + ',' + place.lng();
-    	var bgImage = '<iframe width="400" height="275" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/streetview?key=AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4&location=' + fullLocation + '"></iframe>';
-    	console.log(bgImage);
-    	$extraInfo.append(bgImage);
-	}
-}
+    	$extraInfo.empty();
+    	var image = "<img class='img-responsive' src='" + place.image() + "'>";
+    	$extraInfo.append(image);
+	};
+};
 
 ko.applyBindings(new ViewModel());
 
