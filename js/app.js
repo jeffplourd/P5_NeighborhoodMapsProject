@@ -54,8 +54,9 @@ ko.bindingHandlers.map = {
 
     update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
     	//the following code adds the map to the page
+    	'use strict';
     	var mapObj = valueAccessor();
-        mapObjUnwrapped = ko.unwrap(mapObj);
+        var mapObjUnwrapped = ko.unwrap(mapObj);
 
 	    var latLng = new google.maps.LatLng(
             ko.unwrap(mapObjUnwrapped.lat),
@@ -106,7 +107,7 @@ ko.bindingHandlers.filter = {
 
 	update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
 		var placeList = valueAccessor();
-		placeListUnwrapped = ko.unwrap(placeList);
+		var placeListUnwrapped = ko.unwrap(placeList);
 
 		//I need to grab the value from the 'textInput' binding
 		var textInputValue = ko.unwrap(allBindingsAccessor.get("textInput")).toLowerCase();
@@ -186,8 +187,3 @@ var ViewModel = function() {
 };
 
 ko.applyBindings(new ViewModel());
-
-
-//This is for personal reference during the project:
-//API key: AIzaSyA-w4P4Nz_UWWGlPpxjUCIIbtq3F-b8xs4
-
