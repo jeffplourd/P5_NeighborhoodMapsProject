@@ -1,4 +1,4 @@
-The Neighborhood maps project is an application that allows you to learn about various landmarks at San Diego State University.
+The Neighborhood Maps Project is an application that allows you to learn about various landmarks at San Diego State University.
 
 To use the application, launch the 'index.html' file.
 
